@@ -1,0 +1,68 @@
+Executing a procedure
+A procedure can either be executed from SQL*Plus or a PL/SQL block. The
+P_TO_UPPER procedure can be executed from SQL*Plus.
+The following code shows the execution of the procedure from SQL*Plus (note that
+the parameter is passed using bind variable):
+/*Enable the SERVEROUTPUT parameter to print the results in the
+environment*/
+SQL> SET SERVEROUTPUT ON
+/*Declare a session variable for the input*/
+SQL> VARIABLE M_STR VARCHAR2(50);
+/*Assign a test value to the session variable*/
+SQL> EXECUTE :M_STR := 'My first PLSQL procedure';
+PL/SQL procedure successfully completed.
+/*Call the procedure P_TO_UPPER*/
+SQL> EXECUTE P_TO_UPPER(:M_STR);
+Input string in Upper case : MY FIRST PLSQL PROCEDURE
+PL/SQL procedure successfully completed.
+The P_TO_UPPER procedure can be called as a procedural statement within an
+anonymous PL/SQL block:
+/*Enable the SERVEROUTPUT parameter to print the results in the
+environment*/
+SQL> SET SERVEROUTPUT ON
+/*Start a PL/SQL block*/
+SQL> BEGIN
+/*Call the P_TO_UPPER procedure*/
+P_TO_UPPER ('My first PLSQL procedure');
+END;
+/
+Input string in Upper case : MY FIRST PLSQL PROCEDURE
+PL/SQL procedure successfully completed.
+Overview of PL/SQL Programming Concepts
+[ 20 ]
+Functions
+Similar to a stored procedure, a function is a named derivative of a PL/SQL block
+that is physically stored within the Oracle database schema.
+The key features of stored functions are as follows:
+• A function can accept parameters in all three modes (IN, OUT, and IN OUT)
+and mandatorily returns a value.
+• Functions can be called in SQL statements (SELECT and DMLs). Such
+functions must accept only IN parameters of valid SQL types. Alternatively,
+a function can also be invoked from SELECT statements if the function body
+obeys the database purity rules.
+• If the function is called from an SQL statement, its return type should be a
+valid SQL data type. If the function is invoked from PL/SQL, the return type
+should be a valid PL/SQL type.
+Starting from Oracle Database 12c, PL/SQL—only data
+types can cross the PL/SQL to SQL interface. A PL/SQL
+anonymous block can invoke a PL/SQL subprogram with
+parameters of BOOLEAN or a packaged collection type.
+The syntax for a function is as follows:
+CREATE [OR REPLACE] FUNCTION [Function Name] [Parameter List]
+RETURN [Data type]
+[AUTHID DEFINER | CURRENT_USER]
+[DETERMINISTIC | PARALLEL_ENABLED | PIPELINED]
+[RESULT_CACHE [RELIES_ON (table name)]]
+IS
+[Declaration Statements]
+BEGIN
+[Executable Statements]
+RETURN [Value]
+EXCEPTION
+[Exception handlers]
+END [Function Name];
+Let us create a standalone function, F_GET_DOUBLE, which accepts a numeric
+parameter and returns its double:
+/*Create the function F_GET_DOUBLE*/
+CREATE OR REPLACE FUNCTION F_GET_DOUBLE (P_NUM NUMBER)
+RETURN NUMBER /*Specify the return
