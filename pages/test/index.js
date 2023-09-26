@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { TextLoader } from "langchain/document_loaders/fs/text";
+// import { TextLoader } from "langchain/document_loaders/fs/text";
 
 export default function Test({docs}) {
 
