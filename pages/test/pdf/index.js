@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { TextLoader } from "langchain/document_loaders/fs/text";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 
 export default function Test({docs}) {
 
@@ -15,10 +15,8 @@ export default function Test({docs}) {
         <h1 className="title">
           Let's play with Langchain and Next.js!
         </h1>
-
-        <p>First things first: Ensure I can read txt, csv and pdf files...!!</p>
-       {/* <p>{docs}</p>  */}
-
+        <p>First things first: Supabase with pg vector enabled!!</p>
+       <p>{docs}</p> 
       </main>
 
       <footer className="footer">
@@ -27,4 +25,18 @@ export default function Test({docs}) {
       </footer>
     </div>
   )
+}
+
+export async function getStaticProps( ){
+  
+    const loader = new PDFLoader("dummy2.pdf"
+    , {splitPages: false}
+    );
+    const documents= await loader.load();
+    const docs= documents[0].pageContent;
+    console.log(docs)
+
+    return {
+    props: {docs}
+    }
 }
