@@ -1,12 +1,8 @@
 import Head from 'next/head'
 import { TextLoader } from "langchain/document_loaders/fs/text";
 
-export default async function Test() {
+export default function Test(docs) {
 
-    
-
-const loader = new TextLoader("/small.txt");
-const docs = await loader.load();
   return (
     <div className="container">
       <Head>
@@ -21,6 +17,7 @@ const docs = await loader.load();
         </h1>
 
         <p>First things first: Supabase with pg vector enabled!!</p>
+        {docs}
 
       </main>
 
@@ -30,4 +27,14 @@ const docs = await loader.load();
       </footer>
     </div>
   )
+}
+
+export async function getStaticProps( ){
+  
+const loader = new TextLoader("small.txt");
+const docs = await loader.load();
+
+return {
+  props: {docs}
+}
 }
