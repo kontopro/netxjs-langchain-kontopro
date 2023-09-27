@@ -1,15 +1,23 @@
 import Head from 'next/head';
 import { supabase } from "@/lib/supabaseClient"
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import { useState } from 'react';
 
 export default function UploadPDF({docs}) {
 
-async function uploadDoc (e) {
-    e.preventDefault();
-    const { data: ret,error:error } = await supabase.from("document_content").insert({page_content:docs}).select('id');
-    // return skata;
-    console.log(ret[0].id, error);
-}
+    const [docid, setId] = useState(0)
+
+    async function uploadDoc (e) {
+
+        e.preventDefault();
+        const { data,error } = await supabase.from("document_content").insert({page_content:docs}).select('id');
+        if (error){
+            console.log(error);
+            return;}
+        const rid = data[0].id;
+        setId(rid);
+        return data[0].id;
+    }
 
   return (
     <div className="container">
@@ -26,6 +34,7 @@ async function uploadDoc (e) {
         <p>I will try to upload the pdf file to supabase db table document_content!!</p>
        <p>{docs}</p> 
        <button onClick={uploadDoc} >upload the above conent!</button>
+       {docid>0?<p>the content was uploaded with documet content id: {docid}</p>:null}
       </main>
 
       <footer className="footer">
