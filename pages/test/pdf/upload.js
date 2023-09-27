@@ -8,7 +8,7 @@ async function uploadDoc (e) {
     e.preventDefault();
     const { data: skata } = await supabase.from("document_content").insert({page_content:docs});
     // return skata;
-    console.log(docs);
+    console.log(skata);
 }
 
   return (
