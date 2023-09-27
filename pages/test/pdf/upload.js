@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 
-export default function TestPDF({docs}) {
+export default function UploadPDF({docs}) {
 
   return (
     <div className="container">
@@ -15,7 +15,7 @@ export default function TestPDF({docs}) {
         <h1 className="title">
           Let&apos; s play with Langchain and Next.js!
         </h1>
-        <p>First things first: Supabase with pg vector enabled!!</p>
+        <p>I will try to upload the pdf file to supabase storage!!</p>
        <p>{docs}</p> 
       </main>
 
@@ -30,11 +30,11 @@ export default function TestPDF({docs}) {
 export async function getStaticProps( ){
   
     const loader = new PDFLoader("dummy2.pdf"
-    , {splitPages: false}
+    // , {splitPages: false}
     );
     const documents= await loader.load();
     const docs= documents[0].pageContent;
-    console.log(docs)
+    console.log(documents[0].metadata)
 
     return {
     props: {docs}
