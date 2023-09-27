@@ -6,9 +6,9 @@ export default function UploadPDF({docs}) {
 
 async function uploadDoc (e) {
     e.preventDefault();
-    const { data: rid,error:error } = await supabase.from("document_content").insert({page_content:docs}).select('id');
+    const { data: ret,error:error } = await supabase.from("document_content").insert({page_content:docs}).select('id');
     // return skata;
-    console.log(rid);
+    console.log(ret[0].id, error);
 }
 
   return (
@@ -43,7 +43,8 @@ export async function getStaticProps( ){
     );
     const documents= await loader.load();
     const docs= documents[0].pageContent;
-    console.log(docs)
+    const doc= documents[0]
+    console.log(doc)
 
     return {
     props: {docs}
