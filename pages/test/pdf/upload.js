@@ -16,6 +16,7 @@ export default function UploadPDF({docs}) {
             return;}
         const rid = data[0].id;
         setId(rid);
+        console.log(data[0].id);
         return data[0].id;
     }
 
