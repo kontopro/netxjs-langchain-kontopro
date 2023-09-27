@@ -1,7 +1,15 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import { supabase } from "@/lib/supabaseClient"
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 
 export default function UploadPDF({docs}) {
+
+async function uploadDoc (e) {
+    e.preventDefault();
+    const { data: skata } = await supabase.from("document_content").insert({page_content:docs});
+    // return skata;
+    console.log(docs);
+}
 
   return (
     <div className="container">
@@ -15,8 +23,9 @@ export default function UploadPDF({docs}) {
         <h1 className="title">
           Let&apos; s play with Langchain and Next.js!
         </h1>
-        <p>I will try to upload the pdf file to supabase storage!!</p>
+        <p>I will try to upload the pdf file to supabase db table document_content!!</p>
        <p>{docs}</p> 
+       <button onClick={uploadDoc} >upload the above conent!</button>
       </main>
 
       <footer className="footer">
@@ -30,11 +39,11 @@ export default function UploadPDF({docs}) {
 export async function getStaticProps( ){
   
     const loader = new PDFLoader('dummy2.pdf'
-    // , {splitPages: false}
+    , {splitPages: false}
     );
     const documents= await loader.load();
     const docs= documents[0].pageContent;
-    console.log(documents[0].metadata)
+    // console.log(documents[0].metadata)
 
     return {
     props: {docs}
