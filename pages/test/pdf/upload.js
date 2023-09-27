@@ -29,7 +29,7 @@ export default function UploadPDF({docs}) {
 
 export async function getStaticProps( ){
   
-    const loader = new PDFLoader('https://xmnhlyhmbniuitsgwcgt.supabase.co/storage/v1/object/public/docai_bucket/smallpdf.pdf'
+    const loader = new PDFLoader('dummy2.pdf'
     // , {splitPages: false}
     );
     const documents= await loader.load();
