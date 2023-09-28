@@ -4,9 +4,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY 
 });
 
-export default async (req, res) => {
-  
-  
+export default async (req, res) => {  
 
   if (req.body.prompt !== undefined) {
     const completion = await openai.createCompletion({
