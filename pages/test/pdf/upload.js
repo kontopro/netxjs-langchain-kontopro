@@ -8,7 +8,6 @@ export default function UploadPDF({docs}) {
     const [docid, setId] = useState(0)
 
     async function uploadDoc (e) {
-
         e.preventDefault();
         const { data,error } = await supabase.from("document_content").insert({page_content:docs}).select('id');
         if (error){
