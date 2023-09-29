@@ -29,9 +29,9 @@ export default function UploadPDF({docs}) {
 
       <main className="main">
         <h1 className="title">
-          Let&apos; s play with Langchain and Next.js!
+          Upload content to our databse!
         </h1>
-        <p>I will try to upload the pdf file to supabase db table document_content!!</p>
+        <p>We upload the pdf file to supabase db table document_content. Wes still use the PDFLoader from Langchain so we still store the pdf file to our root folder. Next paragraph contains the already loaded pdf and a button to store its content to the database, with returning id (primary key of table)</p>
        <p>{docs}</p> 
        <button onClick={uploadDoc} >upload the above conent!</button>
        {docid>0?<p>the content was uploaded with documet content id: {docid}</p>:null}

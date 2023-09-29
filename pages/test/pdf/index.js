@@ -12,10 +12,15 @@ export default function TestPDF({docs}) {
       </Head>
 
       <main className="main">
-        <h1 className="title">
-          Let&apos; s play with Langchain and Next.js!
-        </h1>
-        <p>First things first: Supabase with pg vector enabled!!</p>
+        <h1 className="title">We read the pdf with Langchain PDFLoader!</h1>
+        <p>However the public folder of nextjs cannot be read by this loader, so we stored it in our root project folder. Next paragraph is the pageContent of the loaded pdf</p>
+        <p>So the solution:        </p>
+        <p>1. User inputs the file (we should also see the drag n drop)        </p>
+        <p>2. User sees some info of the selected file and confirms uploading (also check sizes)       </p>
+        <p>3. On confirmation we upload/store the file to supabase storage </p>
+        <p>4. On upload/store completion we return the public url to langchain PDFLoader and we store the contents to database (<i>document</i> and <i>document_content</i> table ) returning the document id</p>
+        <p>5. We create embeddings? or can we chat before creating embeddings??</p>
+        <p>6. Start chatting</p>
        <p>{docs}</p> 
       </main>
 
