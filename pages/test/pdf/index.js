@@ -1,7 +1,33 @@
-import Head from 'next/head'
+import { useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import Head from 'next/head';
 
 export default function TestPDF({docs}) {
+
+  const [myFile,setFile] = useState({file:null,name:null,size:null,type:null,blobUrl:null,error:null})
+
+  async function uploadToBucket(){
+        const {data, error} = await supabase.storage.from('docai_bucket').upload(`test/${myFile.file.name}`,myFile.file);
+        if (error) { 
+            const oldFile = myFile;
+            setFile({error})
+                  // console.log(error.statusCode+` (`+error.error+`) `+error.message)
+        }
+  }
+
+  function handleFileSelection(){
+    const fileInput = document.getElementById('input');
+    const file = fileInput.files[0];
+    if (!file) {
+      alert("error: no file selected");
+      return;
+    }
+    const blobUrl = URL.createObjectURL(file);
+    setFile({file:file,name: file.name,size: file.size ,type: file.type, blobUrl: blobUrl});
+    console.log(myFile.name)
+}
+
 
   return (
     <div className="container">
@@ -13,6 +39,7 @@ export default function TestPDF({docs}) {
 
       <main className="main">
         <h1 className="title">We read the pdf with Langchain PDFLoader!</h1>
+        <div>
         <p>However the public folder of nextjs cannot be read by this loader, so we stored it in our root project folder. Next paragraph is the pageContent of the loaded pdf</p>
         <p>So the solution:        </p>
         <p>1. User inputs the file (we should also see the drag n drop)        </p>
@@ -21,7 +48,15 @@ export default function TestPDF({docs}) {
         <p>4. On upload/store completion we return the public url to langchain PDFLoader and we store the contents to database (<i>document</i> and <i>document_content</i> table ) returning the document id</p>
         <p>5. We create embeddings? or can we chat before creating embeddings??</p>
         <p>6. Start chatting</p>
-       <p>{docs}</p> 
+        </div>
+        <div>
+          <p>1.<br/> <input type="file" id="input" onChange={handleFileSelection} /></p>
+          {myFile.name?<p>2.<br /> You have selected the <b><i>{myFile.name}</i></b> of size <b><i>{parseFloat(myFile.size/(1024*1024)).toFixed(2)}</i></b> MB ! Click the follow button to upload it!
+          <br/><button onClick={uploadToBucket}></button>
+          </p>:null}
+          {myFile.error?<p>error: {`${myFile.error.statusCode} (${myFile.error.error}) ${myFile.error.message}`}</p>:myFile.name?<p>ok</p>:null}
+        </div>
+       {/* <p>{docs}</p>  */}
       </main>
 
       <footer className="footer">
@@ -39,7 +74,7 @@ export async function getStaticProps( ){
     );
     const documents= await loader.load();
     const docs= documents[0].pageContent;
-    console.log(docs)
+    // console.log(docs)
 
     return {
     props: {docs}
