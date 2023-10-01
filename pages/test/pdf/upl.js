@@ -1,8 +1,7 @@
 import Head from 'next/head'
-import { PDFLoader } from "langchain/document_loaders/fs/pdf";
-import { useState } from 'react';
+// import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 
-export default function TestPDF({docs}) {
+export default function TestPDF({}) {
 
   return (
     <div className="container">
@@ -17,7 +16,7 @@ export default function TestPDF({docs}) {
           New try!!
         </h1>
         <p>We try to upload with a drag&drop loader to see if i can make the PDFLoader of Langchain to read from public folder, which is the default asset serving folder of nextjs</p>
-       <p>{docs}</p> 
+       {/* <p>{docs}</p>  */}
        {/* <input type="file" id="input" onChange={handleFileSelection} /> */}
        {/* <p>the file name is {myfile.name}</p> */}
       </main>
@@ -30,16 +29,16 @@ export default function TestPDF({docs}) {
   )
 }
 
-export async function getStaticProps( ){
+// export async function getStaticProps( ){
   
-    const response = await fetch("https://xmnhlyhmbniuitsgwcgt.supabase.co/storage/v1/object/public/docai_bucket/jwts-not-safe-e-book.pdf");
-    const pdfBlob = await response.blob();
-    const loader = new PDFLoader(pdfBlob, {splitPages: false} );
-    const documents= await loader.load();
-    const docs= documents[0].pageContent;
-    console.log(docs)
+//     const response = await fetch("https://xmnhlyhmbniuitsgwcgt.supabase.co/storage/v1/object/public/docai_bucket/jwts-not-safe-e-book.pdf");
+//     const pdfBlob = await response.blob();
+//     // const loader = new PDFLoader(pdfBlob, {splitPages: false} );
+//     // const documents= await loader.load();
+//     // const docs= documents[0].pageContent;
+//     // console.log(docs)
 
-    return {
-    props: {docs}
-    }
+//     return {
+//     props: {docs}
+//     }
 }
